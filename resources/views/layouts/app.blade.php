@@ -15,22 +15,39 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
+        <div class="min-h-screen bg-gray-100 flex flex-col">
+            @include('layouts.navbar')
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
+            <main class="flex-1">
+                @auth
+                    @if(auth()->user()->role === 'penjual')
+                        <!-- Penjual Layout: Sidebar + Content -->
+                        <div class="flex">
+                            @include('layouts.sidebar')
+                            <div class="flex-1 py-6 px-4 sm:px-6 lg:px-8">
+                                @yield('content')
+                            </div>
+                        </div>
+                    @else
+                        <!-- Pembeli Layout: Full Width Content -->
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            @yield('content')
+                        </div>
+                    @endif
+                @else
+                    <!-- Guest Layout: Full Width Content -->
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        @yield('content')
+                    </div>
+                @endauth
             </main>
+
+            <!-- Footer for Pembeli -->
+            @auth
+                @if(auth()->user()->role === 'pembeli')
+                    @include('layouts.footer-pembeli')
+                @endif
+            @endauth
         </div>
     </body>
 </html>
