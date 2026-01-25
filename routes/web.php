@@ -2,13 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PembeliController;
-use App\Http\Controllers\PenjualController;
-use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('pembeli.dashboard');
-});
+})->name('pembeli.dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,12 +18,23 @@ Route::get('/redirect', function () {
     return redirect('/pembeli/dashboard');
 })->middleware('auth');
 
-Route::middleware(['auth', RoleMiddleware::class])->prefix('penjual')->group(function () {
-    Route::get('/dashboard', function () {return view('penjual.dashboard');})->name('penjual.dashboard');
+Route::middleware(['auth', 'role:penjual'])->prefix('penjual')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('penjual.dashboard');
+    })->name('penjual.dashboard');
 });
 
-Route::middleware(['auth', RoleMiddleware::class])->prefix('pembeli')->group(function () {
-    Route::get('/dashboard', function () {return view('pembeli.dashboard');})->name('pembeli.dashboard');
+// Public routes for pembeli
+Route::prefix('pembeli')->group(function () {
+    // Route publik pembeli di sini
+    // Route::get('/products', [ProductController::class, 'index'])->name('pembeli.products');
+});
+
+// Auth routes for pembeli
+Route::middleware(['auth', 'role:pembeli'])->prefix('pembeli')->group(function () {
+    // Fitur pembeli yang memerlukan login
+    // Route::get('/orders', [OrderController::class, 'index'])->name('pembeli.orders');
+    // Route::post('/checkout', [CheckoutController::class, 'store'])->name('pembeli.checkout');
 });
 
 Route::middleware('auth')->group(function () {

@@ -42,11 +42,12 @@
                 @endauth
             </main>
 
-            <!-- Footer for Pembeli -->
             @auth
-                @if(auth()->user()->role === 'pembeli')
+                @if(auth()->user()->role !== 'penjual')
                     @include('layouts.footer-pembeli')
                 @endif
+            @else
+                @include('layouts.footer-pembeli')
             @endauth
         </div>
     </body>

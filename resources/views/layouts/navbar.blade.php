@@ -6,19 +6,19 @@
 					@if(auth()->user()->role === 'penjual')
 						Admin Panel
 					@else
-						Pembeli Panel
+						Toko Online
 					@endif
 				@else
 					{{ config('app.name', 'Toko') }}
 				@endauth
 			</a>
-			<a href="{{ route('dashboard') }}" class="text-sm text-gray-600">Utama</a>
+			<a href="{{ url('/') }}" class="text-sm text-gray-600">Beranda</a>
 			@auth
-				@if(auth()->user()->role === 'pembeli')
-					<a href="{{ url('/pembeli/dashboard') }}" class="text-sm text-gray-600">Dashboard Pembeli</a>
-				@endif
 				@if(auth()->user()->role === 'penjual')
-					<a href="{{ url('/penjual/dashboard') }}" class="text-sm text-gray-600">Dashboard Penjual</a>
+					<a href="{{ url('/penjual/dashboard') }}" class="text-sm text-gray-600">Dashboard</a>
+				@else
+					<a href="{{ url('#orders') }}" class="text-sm text-gray-600">Pesanan</a>
+					<a href="{{ url('#wishlist') }}" class="text-sm text-gray-600">Wishlist</a>
 				@endif
 			@endauth
 		</div>
