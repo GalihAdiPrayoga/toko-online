@@ -40,21 +40,19 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'pembeli',
         ]);
 
-        // create pembeli profile automatically (default role is pembeli)
+        // Otomatis buat profil pembeli
         Pembeli::create([
             'user_id' => $user->id,
-            'nama_pembeli' => $user->name,
-            'alamat' => '-',
-            'no_hp' => '-',
+            'nama_pembeli' => $request->name,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        // redirect to role-based redirect route
-        return redirect('/redirect');
+        return redirect()->route('pembeli.dashboard');
     }
 }

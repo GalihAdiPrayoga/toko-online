@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -55,4 +56,13 @@ class User extends Authenticatable
         return $this->hasOne(Pembeli::class);
     }
 
+    public function isPenjual(): bool
+    {
+        return $this->role === 'penjual';
+    }
+
+    public function isPembeli(): bool
+    {
+        return $this->role === 'pembeli';
+    }
 }

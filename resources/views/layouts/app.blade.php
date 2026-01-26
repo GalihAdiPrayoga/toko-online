@@ -17,6 +17,16 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex flex-col">
             @include('layouts.navbar')
+
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
+
             <!-- Page Content -->
             <main class="flex-1">
                 @auth
@@ -24,21 +34,20 @@
                         <!-- Penjual Layout: Sidebar + Content -->
                         <div class="flex">
                             @include('layouts.sidebar')
-                            <div class="flex-1 py-6 px-4 sm:px-6 lg:px-8">
+                            <div class="flex-1">
+                                {{ $slot ?? '' }}
                                 @yield('content')
                             </div>
                         </div>
                     @else
                         <!-- Pembeli Layout: Full Width Content -->
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            @yield('content')
-                        </div>
+                        {{ $slot ?? '' }}
+                        @yield('content')
                     @endif
                 @else
                     <!-- Guest Layout: Full Width Content -->
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        @yield('content')
-                    </div>
+                    {{ $slot ?? '' }}
+                    @yield('content')
                 @endauth
             </main>
 

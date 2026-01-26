@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Pembeli;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,18 +14,18 @@ class PembeliSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
-            'name' => 'Pembeli Satu',
-            'email' => 'pembeli@gmail.com',
+        $user = User::create([
+            'name' => 'Pembeli Demo',
+            'email' => 'pembeli@toko.com',
             'password' => Hash::make('password'),
             'role' => 'pembeli',
         ]);
 
         Pembeli::create([
             'user_id' => $user->id,
-            'nama_pembeli' => $user->name,
-            'alamat' => 'Alamat pembeli contoh',
-            'no_hp' => '089876543210',
+            'nama_pembeli' => 'Pembeli Demo',
+            'alamat' => 'Jl. Sudirman No. 456',
+            'no_hp' => '081298765432',
         ]);
     }
 }
